@@ -111,7 +111,7 @@ spec:
         - name: userHome
           value: /home/git
       runAfter:
-        - git-clone-app
+        - s2i-java
       taskRef:
         kind: ClusterTask
         name: git-clone
@@ -261,7 +261,7 @@ spec:
         - name: userHome
           value: /home/git
       runAfter:
-        - git-clone-app
+        - s2i-java
       taskRef:
         kind: ClusterTask
         name: git-clone
