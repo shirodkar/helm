@@ -1,0 +1,29 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: service-two
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-two
+  template:
+    metadata:
+      labels:
+        app: service-two
+      annotations:
+        sidecar.istio.io/inject: 'true'
+    spec:
+      containers:
+        - name: service-two
+          image: 'quay.io/rh_ee_sshirodk/demo-service-two:latest'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: service-two-config
+      imagePullSecrets:
+        - name: quayio
+  strategy:
+    type: RollingUpdate

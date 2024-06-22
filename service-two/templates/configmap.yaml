@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: service-two-config
+data:
+  quarkus.datasource.jdbc.url: jdbc:postgresql://postgres:5432/postgres
+  quarkus.datasource.password: postgres
+  quarkus.datasource.username: postgres

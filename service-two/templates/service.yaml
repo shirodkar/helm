@@ -1,0 +1,31 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-two
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 8081-tcp
+      protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP
+  selector:
+    app: service-two
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: postgresql
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
+  selector:
+    name: postgres
