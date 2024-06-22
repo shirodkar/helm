@@ -10,7 +10,7 @@ spec:
   targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: {{ .destination.namespace }}
+    namespace: {{ .Values.destination.namespace }}
   syncPolicy:
     automated:
       prune: false
