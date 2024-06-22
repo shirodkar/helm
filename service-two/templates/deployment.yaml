@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: service-two
-          image: 'quay.io/rh_ee_sshirodk/demo-service-two:latest'
+          image: 'quay.io/rh_ee_sshirodk/demo-service-two:{{ .Values.image.tag }}'
           ports:
             - containerPort: 8080
               protocol: TCP
