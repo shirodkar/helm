@@ -3,3 +3,4 @@
 	name = Tekton Pipeline
 [safe]
 	directory = /workspace/source
+	directory = /workspace/source
