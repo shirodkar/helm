@@ -1,0 +1,25 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: service-one
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - bindings:
+      - kind: ClusterTriggerBinding
+        ref: github-push
+      template:
+        ref: service-one
+---
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: service-two
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - bindings:
+      - kind: ClusterTriggerBinding
+        ref: github-push
+      template:
+        ref: service-two

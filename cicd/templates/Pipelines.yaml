@@ -1,0 +1,299 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: service-one
+spec:
+  tasks:
+    - name: git-clone-app
+      params:
+        - name: url
+          value: https://github.com/shirodkar/service-one.git
+        - name: revision
+          value: ""
+        - name: refspec
+          value: ""
+        - name: submodules
+          value: "true"
+        - name: depth
+          value: "1"
+        - name: sslVerify
+          value: "true"
+        - name: crtFileName
+          value: ca-bundle.crt
+        - name: subdirectory
+          value: ""
+        - name: sparseCheckoutDirectories
+          value: ""
+        - name: deleteExisting
+          value: "true"
+        - name: httpProxy
+          value: ""
+        - name: httpsProxy
+          value: ""
+        - name: noProxy
+          value: ""
+        - name: verbose
+          value: "true"
+        - name: gitInitImage
+          value: registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:868966ef9d4b54952d8a74eb83bba40eb1f52c0148994fa704efd0e3797c61c5
+        - name: userHome
+          value: /home/git
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: app
+    - name: s2i-java
+      params:
+        - name: VERSION
+          value: latest
+        - name: PATH_CONTEXT
+          value: .
+        - name: TLSVERIFY
+          value: "true"
+        - name: MAVEN_ARGS_APPEND
+          value: ""
+        - name: MAVEN_CLEAR_REPO
+          value: "false"
+        - name: MAVEN_MIRROR_URL
+          value: ""
+        - name: IMAGE
+          value: quay.io/rh_ee_sshirodk/demo-service-one:$(tasks.git-clone-app.results.commit)
+        - name: BUILDER_IMAGE
+          value: registry.redhat.io/rhel8/buildah@sha256:b48f410efa0ff8ab0db6ead420a5d8d866d64af846fece5efb185230d7ecf591
+        - name: SKIP_PUSH
+          value: "false"
+        - name: ENV_VARS
+          value: []
+      runAfter:
+        - git-clone-app
+      taskRef:
+        kind: ClusterTask
+        name: s2i-java
+      workspaces:
+        - name: source
+          workspace: app
+        - name: dockerconfig
+          workspace: quayio
+    - name: git-clone-gitops
+      params:
+        - name: url
+          value: https://github.com/shirodkar/helm.git
+        - name: revision
+          value: ""
+        - name: refspec
+          value: ""
+        - name: submodules
+          value: "true"
+        - name: depth
+          value: "1"
+        - name: sslVerify
+          value: "true"
+        - name: crtFileName
+          value: ca-bundle.crt
+        - name: subdirectory
+          value: ""
+        - name: sparseCheckoutDirectories
+          value: ""
+        - name: deleteExisting
+          value: "true"
+        - name: httpProxy
+          value: ""
+        - name: httpsProxy
+          value: ""
+        - name: noProxy
+          value: ""
+        - name: verbose
+          value: "true"
+        - name: gitInitImage
+          value: registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:f5206d183e4bdaa90800f349c6cd6a5ee62741dd944fa34e08c44ec0c125869d
+        - name: userHome
+          value: /home/git
+      runAfter:
+        - git-clone-app
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: gitops
+    - name: trigger-gitops
+      params:
+        - name: BASE_IMAGE
+          value: cgr.dev/chainguard/git:root-2.39@sha256:7759f87050dd8bacabe61354d75ccd7f864d6b6f8ec42697db7159eccd491139
+        - name: GIT_USER_NAME
+          value: Tekton Pipeline
+        - name: GIT_USER_EMAIL
+          value: tekton@tekton.com
+        - name: GIT_SCRIPT
+          value: "COMMIT_HASH=\\\"$(tasks.git-clone-app.results.commit)\\\"\ngit config --global --add safe.directory /workspace/source\nsed -i \"/^\\([[:space:]]*tag: \\).*/s//\\1$COMMIT_HASH/\" service-one/values.yaml\ngit checkout\ngit add --a \ngit commit -m \"Automatically updated manifest to point to image tag $COMMIT_HASH\" \ngit remote set-url origin https://github.com/shirodkar/helm.git\ngit push origin HEAD:main"
+        - name: USER_HOME
+          value: /root
+        - name: VERBOSE
+          value: "true"
+      runAfter:
+        - git-clone-gitops
+      taskRef:
+        kind: ClusterTask
+        name: git-cli
+      workspaces:
+        - name: source
+          workspace: gitops
+        - name: basic-auth
+          workspace: githubsecret
+  workspaces:
+    - name: app
+    - name: quayio
+    - name: gitops
+    - name: githubsecret
+---
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: service-two
+spec:
+  tasks:
+    - name: git-clone-app
+      params:
+        - name: url
+          value: https://github.com/shirodkar/service-two.git
+        - name: revision
+          value: ""
+        - name: refspec
+          value: ""
+        - name: submodules
+          value: "true"
+        - name: depth
+          value: "1"
+        - name: sslVerify
+          value: "true"
+        - name: crtFileName
+          value: ca-bundle.crt
+        - name: subdirectory
+          value: ""
+        - name: sparseCheckoutDirectories
+          value: ""
+        - name: deleteExisting
+          value: "true"
+        - name: httpProxy
+          value: ""
+        - name: httpsProxy
+          value: ""
+        - name: noProxy
+          value: ""
+        - name: verbose
+          value: "true"
+        - name: gitInitImage
+          value: registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:868966ef9d4b54952d8a74eb83bba40eb1f52c0148994fa704efd0e3797c61c5
+        - name: userHome
+          value: /home/git
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: app
+    - name: s2i-java
+      params:
+        - name: VERSION
+          value: latest
+        - name: PATH_CONTEXT
+          value: .
+        - name: TLSVERIFY
+          value: "true"
+        - name: MAVEN_ARGS_APPEND
+          value: ""
+        - name: MAVEN_CLEAR_REPO
+          value: "false"
+        - name: MAVEN_MIRROR_URL
+          value: ""
+        - name: IMAGE
+          value: quay.io/rh_ee_sshirodk/demo-service-two:$(tasks.git-clone-app.results.commit)
+        - name: BUILDER_IMAGE
+          value: registry.redhat.io/rhel8/buildah@sha256:b48f410efa0ff8ab0db6ead420a5d8d866d64af846fece5efb185230d7ecf591
+        - name: SKIP_PUSH
+          value: "false"
+        - name: ENV_VARS
+          value: []
+      runAfter:
+        - git-clone-app
+      taskRef:
+        kind: ClusterTask
+        name: s2i-java
+      workspaces:
+        - name: source
+          workspace: app
+        - name: dockerconfig
+          workspace: quayio
+    - name: git-clone-gitops
+      params:
+        - name: url
+          value: https://github.com/shirodkar/helm.git
+        - name: revision
+          value: ""
+        - name: refspec
+          value: ""
+        - name: submodules
+          value: "true"
+        - name: depth
+          value: "1"
+        - name: sslVerify
+          value: "true"
+        - name: crtFileName
+          value: ca-bundle.crt
+        - name: subdirectory
+          value: ""
+        - name: sparseCheckoutDirectories
+          value: ""
+        - name: deleteExisting
+          value: "true"
+        - name: httpProxy
+          value: ""
+        - name: httpsProxy
+          value: ""
+        - name: noProxy
+          value: ""
+        - name: verbose
+          value: "true"
+        - name: gitInitImage
+          value: registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:f5206d183e4bdaa90800f349c6cd6a5ee62741dd944fa34e08c44ec0c125869d
+        - name: userHome
+          value: /home/git
+      runAfter:
+        - git-clone-app
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: gitops
+    - name: trigger-gitops
+      params:
+        - name: BASE_IMAGE
+          value: cgr.dev/chainguard/git:root-2.39@sha256:7759f87050dd8bacabe61354d75ccd7f864d6b6f8ec42697db7159eccd491139
+        - name: GIT_USER_NAME
+          value: Tekton Pipeline
+        - name: GIT_USER_EMAIL
+          value: tekton@tekton.com
+        - name: GIT_SCRIPT
+          value: "COMMIT_HASH=\\\"$(tasks.git-clone-app.results.commit)\\\"\ngit config --global --add safe.directory /workspace/source\nsed -i \"/^\\([[:space:]]*tag: \\).*/s//\\1$COMMIT_HASH/\" service-two/values.yaml\ngit checkout\ngit add --a \ngit commit -m \"Automatically updated manifest to point to image tag $COMMIT_HASH\" \ngit remote set-url origin https://github.com/shirodkar/helm.git\ngit push origin HEAD:main"
+        - name: USER_HOME
+          value: /root
+        - name: VERBOSE
+          value: "true"
+      runAfter:
+        - git-clone-gitops
+      taskRef:
+        kind: ClusterTask
+        name: git-cli
+      workspaces:
+        - name: source
+          workspace: gitops
+        - name: basic-auth
+          workspace: githubsecret
+  workspaces:
+    - name: app
+    - name: quayio
+    - name: gitops
+    - name: githubsecret

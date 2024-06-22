@@ -1,0 +1,21 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: el-service-one-route
+spec:
+  to:
+    kind: Service
+    name: el-service-one
+  port:
+    targetPort: http-listener
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: el-service-two-route
+spec:
+  to:
+    kind: Service
+    name: el-service-two
+  port:
+    targetPort: http-listener

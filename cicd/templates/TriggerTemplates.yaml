@@ -1,0 +1,69 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: service-one
+spec:
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        finalizers:
+          - chains.tekton.dev/pipelinerun
+        labels:
+          tekton.dev/pipeline: service-one
+        name: service-one-$(uid)
+      spec:
+        pipelineRef:
+          name: service-one
+        taskRunTemplate:
+          serviceAccountName: pipeline
+        timeouts:
+          pipeline: 1h0m0s
+        workspaces:
+          - name: app
+            persistentVolumeClaim:
+              claimName: service-one
+          - name: quayio
+            secret:
+              secretName: quayio
+          - name: gitops
+            persistentVolumeClaim:
+              claimName: gitops
+          - name: githubsecret
+            secret:
+              secretName: my-basic-auth-secret
+---
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: service-two
+spec:
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        finalizers:
+          - chains.tekton.dev/pipelinerun
+        labels:
+          tekton.dev/pipeline: service-two
+        name: service-two-$(uid)
+      spec:
+        pipelineRef:
+          name: service-two
+        taskRunTemplate:
+          serviceAccountName: pipeline
+        timeouts:
+          pipeline: 1h0m0s
+        workspaces:
+          - name: app
+            persistentVolumeClaim:
+              claimName: service-two
+          - name: quayio
+            secret:
+              secretName: quayio
+          - name: gitops
+            persistentVolumeClaim:
+              claimName: gitops
+          - name: githubsecret
+            secret:
+              secretName: my-basic-auth-secret
