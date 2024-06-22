@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-one
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-one
+  template:
+    metadata:
+      labels:
+        app: service-one
+      annotations:
+        sidecar.istio.io/inject: 'true'
+    spec:
+      containers:
+        - name: service-one
+          image: 'quay.io/rh_ee_sshirodk/demo-service-one:{{ .Values.image.tag }}'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: service-one-config
+      imagePullSecrets:
+        - name: quayio
+  strategy:
+    type: RollingUpdate
