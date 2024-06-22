@@ -11,3 +11,7 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: cicd
+  syncPolicy:
+    automated:
+        prune: true
+        selfHeal: true
