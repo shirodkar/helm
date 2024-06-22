@@ -7,7 +7,7 @@ spec:
   source:
     repoURL: 'https://github.com/shirodkar/helm.git'
     path: service-one
-  targetRevision: HEAD
+    targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: {{ .Values.destination.namespace }}
