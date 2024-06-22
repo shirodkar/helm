@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cicd
+  namespace: {{ .Values.destination.namespace }}
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/shirodkar/helm.git'
+    path: cicd
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: {{ .Values.destination.namespace }}
