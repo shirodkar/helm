@@ -1,0 +1,5 @@
+[user]
+	email = tekton@tekton.com
+	name = Tekton Pipeline
+[safe]
+	directory = /workspace/source
