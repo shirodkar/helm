@@ -31,7 +31,7 @@ spec:
               claimName: gitops
           - name: githubsecret
             secret:
-              secretName: my-basic-auth-secret
+              secretName: github-secret
 ---
 apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerTemplate
@@ -66,4 +66,4 @@ spec:
               claimName: gitops
           - name: githubsecret
             secret:
-              secretName: my-basic-auth-secret
+              secretName: github-secret
