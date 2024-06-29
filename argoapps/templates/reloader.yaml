@@ -5,8 +5,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'http://stakater.github.io/stakater-charts'
-    path: stakater/reloader
+    repoURL: 'https://github.com/stakater/Reloader.git'
+    path: deployments/kubernetes/chart/reloader
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
