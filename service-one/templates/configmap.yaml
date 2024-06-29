@@ -3,4 +3,4 @@ apiVersion: v1
 metadata:
   name: service-one-config
 data:
-  service-two.base-url: 'http://service-two:8081'
+  other-service.base-url: 'http://service-two:8081'
