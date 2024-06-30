@@ -1,4 +1,3 @@
 registry: quay.io/rh_ee_sshirodk
 dockerconfigjson: 
 gitcredentials: 
-gitconfig:
