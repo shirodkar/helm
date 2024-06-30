@@ -24,6 +24,6 @@ spec:
             - configMapRef:
                 name: service-one-config
       imagePullSecrets:
-        - name: quayio
+        - name: quaysecret
   strategy:
     type: RollingUpdate

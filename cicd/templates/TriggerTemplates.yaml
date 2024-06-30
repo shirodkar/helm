@@ -23,9 +23,9 @@ spec:
           - name: app
             persistentVolumeClaim:
               claimName: service-one
-          - name: quayio
+          - name: quaysecret
             secret:
-              secretName: quayio
+              secretName: quaysecret
           - name: gitops
             persistentVolumeClaim:
               claimName: gitops
@@ -58,9 +58,9 @@ spec:
           - name: app
             persistentVolumeClaim:
               claimName: service-two
-          - name: quayio
+          - name: quaysecret
             secret:
-              secretName: quayio
+              secretName: quaysecret
           - name: gitops
             persistentVolumeClaim:
               claimName: gitops
