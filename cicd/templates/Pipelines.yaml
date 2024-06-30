@@ -59,7 +59,7 @@ spec:
         - name: MAVEN_MIRROR_URL
           value: ""
         - name: IMAGE
-          value: quay.io/rh_ee_sshirodk/demo-service-one:$(tasks.git-clone-app.results.commit)
+          value: {{ .Values.registry }}/demo-service-one:$(tasks.git-clone-app.results.commit)
         - name: BUILDER_IMAGE
           value: registry.redhat.io/rhel8/buildah@sha256:b48f410efa0ff8ab0db6ead420a5d8d866d64af846fece5efb185230d7ecf591
         - name: SKIP_PUSH
@@ -209,7 +209,7 @@ spec:
         - name: MAVEN_MIRROR_URL
           value: ""
         - name: IMAGE
-          value: quay.io/rh_ee_sshirodk/demo-service-two:$(tasks.git-clone-app.results.commit)
+          value: {{ .Values.registry }}/demo-service-two:$(tasks.git-clone-app.results.commit)
         - name: BUILDER_IMAGE
           value: registry.redhat.io/rhel8/buildah@sha256:b48f410efa0ff8ab0db6ead420a5d8d866d64af846fece5efb185230d7ecf591
         - name: SKIP_PUSH

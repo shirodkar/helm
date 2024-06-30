@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: service-one
-          image: 'quay.io/rh_ee_sshirodk/demo-service-one:{{ .Values.image.tag }}'
+          image: '{{ .Values.registry }}/demo-service-one:{{ .Values.image.tag }}'
           ports:
             - containerPort: 8080
               protocol: TCP
