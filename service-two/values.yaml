@@ -1,3 +1,7 @@
 registry: quay.io/rh_ee_sshirodk
 image:
   tag: "cb395d12daf6dedbfeb77f3849987351aedbda96"
+database:
+  name: 
+  password: 
+  user: 

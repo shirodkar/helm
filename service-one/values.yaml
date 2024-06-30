@@ -1,3 +1,4 @@
 registry: quay.io/rh_ee_sshirodk
 image:
   tag: "02fcda38fb58f19147c158e01ab7036c4c0c3eff"
+dockerconfigjson: 
