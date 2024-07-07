@@ -6,7 +6,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/shirodkar/helm.git'
-    path: cicd
+    path: argoapps/cicd
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
