@@ -24,6 +24,6 @@ spec:
             - configMapRef:
                 name: service-two-config
       imagePullSecrets:
-        - name: quaysecret
+        - name: quayio
   strategy:
     type: RollingUpdate
