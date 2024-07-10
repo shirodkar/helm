@@ -3,7 +3,7 @@ kind: EventListener
 metadata:
   name: service-one
 spec:
-  serviceAccountName: secret-service-account
+  serviceAccountName: pipeline
   triggers:
     - bindings:
       - kind: ClusterTriggerBinding
@@ -16,7 +16,7 @@ kind: EventListener
 metadata:
   name: service-two
 spec:
-  serviceAccountName: secret-service-account
+  serviceAccountName: pipeline
   triggers:
     - bindings:
       - kind: ClusterTriggerBinding
