@@ -32,6 +32,8 @@ spec:
           - name: githubsecret
             secret:
               secretName: github-secret
+          - name: imagesurl
+            emptyDir: {}
 ---
 apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerTemplate
@@ -67,3 +69,5 @@ spec:
           - name: githubsecret
             secret:
               secretName: github-secret
+          - name: imagesurl
+            emptyDir: {}

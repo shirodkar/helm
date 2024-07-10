@@ -76,6 +76,24 @@ spec:
           workspace: app
         - name: dockerconfig
           workspace: quaysecret
+    - name: skopeo-copy
+      params:
+        - name: srcImageURL
+          value: 'docker://quay.io/rh_ee_sshirodk/demo-service-one:$(tasks.git-clone-app.results.commit)'
+        - name: destImageURL
+          value: 'docker://quay.io/rh_ee_sshirodk/demo-service-one:latest'
+        - name: srcTLSverify
+          value: 'true'
+        - name: destTLSverify
+          value: 'true'
+      runAfter:
+        - s2i-java
+      taskRef:
+        kind: ClusterTask
+        name: skopeo-copy
+      workspaces:
+        - name: images-url
+          workspace: imagesurl
     - name: git-clone-gitops
       params:
         - name: url
@@ -226,6 +244,24 @@ spec:
           workspace: app
         - name: dockerconfig
           workspace: quaysecret
+    - name: skopeo-copy
+      params:
+        - name: srcImageURL
+          value: 'docker://quay.io/rh_ee_sshirodk/demo-service-two:$(tasks.git-clone-app.results.commit)'
+        - name: destImageURL
+          value: 'docker://quay.io/rh_ee_sshirodk/demo-service-two:latest'
+        - name: srcTLSverify
+          value: 'true'
+        - name: destTLSverify
+          value: 'true'
+      runAfter:
+        - s2i-java
+      taskRef:
+        kind: ClusterTask
+        name: skopeo-copy
+      workspaces:
+        - name: images-url
+          workspace: imagesurl
     - name: git-clone-gitops
       params:
         - name: url
@@ -297,3 +333,4 @@ spec:
     - name: quaysecret
     - name: gitops
     - name: githubsecret
+    - name: imagesurl
