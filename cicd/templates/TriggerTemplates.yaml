@@ -16,7 +16,7 @@ spec:
         pipelineRef:
           name: service-one
         taskRunTemplate:
-          serviceAccountName: pipeline
+          serviceAccountName: secret-service-account
         timeouts:
           pipeline: 1h0m0s
         workspaces:
@@ -53,7 +53,7 @@ spec:
         pipelineRef:
           name: service-two
         taskRunTemplate:
-          serviceAccountName: pipeline
+          serviceAccountName: secret-service-account
         timeouts:
           pipeline: 1h0m0s
         workspaces:
