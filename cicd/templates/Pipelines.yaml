@@ -79,9 +79,9 @@ spec:
     - name: skopeo-copy
       params:
         - name: srcImageURL
-          value: 'docker://quay.io/rh_ee_sshirodk/demo-service-one:$(tasks.git-clone-app.results.commit)'
+          value: 'docker://{{ .Values.registry }}/demo-service-one:$(tasks.git-clone-app.results.commit)'
         - name: destImageURL
-          value: 'docker://quay.io/rh_ee_sshirodk/demo-service-one:latest'
+          value: 'docker://{{ .Values.registry }}/demo-service-one:latest'
         - name: srcTLSverify
           value: 'true'
         - name: destTLSverify
