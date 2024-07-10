@@ -165,6 +165,7 @@ spec:
     - name: quaysecret
     - name: gitops
     - name: githubsecret
+    - name: imagesurl
 ---
 apiVersion: tekton.dev/v1
 kind: Pipeline
