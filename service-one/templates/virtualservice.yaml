@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
- name: demo-app-virtualservice
+ name: demo-app-vs
 spec:
  gateways:
    - demo-app-gateway
