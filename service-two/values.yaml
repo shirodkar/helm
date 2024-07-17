@@ -1,6 +1,6 @@
 registry: quay.io/rh_ee_sshirodk
 image:
-  tag: "863bda41ba45df6cc12fbfa223ef41418cabe248"
+  tag: "2c2f32e6a9f48970fe881a67d0dc98091eff9de5"
 database:
   name: cG9zdGdyZXM=
   password: cG9zdGdyZXM=
