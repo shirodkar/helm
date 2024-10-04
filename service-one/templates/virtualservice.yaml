@@ -13,8 +13,3 @@ spec:
          host: service-one
          port:
            number: 8080
-   - route:
-     - destination:
-         host: service-one
-         port:
-           number: 8443
