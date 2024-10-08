@@ -94,6 +94,5 @@ spec:
           kind: ImageStreamTag
           name: postgresql:10-el8
           namespace: openshift
-        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/openshift/postgresql@sha256:ed2da0eed3f495f5455f490cdf7f7943420f64b0cf541271a2d315a3f9e9744c
       type: ImageChange
     - type: ConfigChange
